@@ -1,38 +1,119 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  padding: 20px;
+  background-color: #f0f0f0;
 }
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(12px + 2vmin);
   color: white;
+  padding: 20px;
 }
 
-.App-link {
-  color: #61dafb;
+main {
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+  background-color: #e0e0e0; 
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+form {
+  justify-content: center;
+  margin: 20px auto;
+  width: 100%; 
+  max-width: 360px; 
+  padding: 0 20px; 
+}
+
+.qso-form label {
+  margin-bottom: 5px;
+  width: 100%; 
+  text-align: left;
+}
+
+.qso-form input,
+.qso-form textarea {
+  margin-bottom: 10px; 
+  width: 100%; 
+  padding: 8px;  
+  box-sizing: border-box; 
+}
+
+.qso-form textarea {
+  height: 100px; 
+  resize: none; 
+}
+
+.qso-list {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #ffffff; 
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.qso-list ul {
+  list-style: none; 
+  padding-left: 0; 
+}
+
+.qso-list-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px; 
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 1.1em;
+}
+
+.qso-list-item:nth-child(even) {
+  background-color: #ecececd6; 
+}
+
+.qso-list-item:nth-child(odd) {
+  background-color: #ecececd6; 
+}
+
+.qso-list-item:hover {
+  background-color: #d3d3d3; 
+}
+
+footer {
+  margin-top: 20px;
+  font-size: 0.8em;
+  color: #666;
+}
+
+button[type="submit"] {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #2e2e2e;
+}
+
+button[type="submit"]:active {
+  background-color: #003d80;
+}
+
+button[type="submit"]:focus {
+  outline: none;
+  box-shadow: 0 0 3px 2px rgba(69, 70, 70, 0.5);
 }
