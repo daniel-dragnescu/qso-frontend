@@ -1,15 +1,39 @@
 import React from 'react';
 
-const QsoList = ({ qsoList, loading }) => {
+const QsoList = ({ qsoList, searchTerm, loading }) => {
   if (loading) {
     return <p>Loading...</p>;
   }
 
+  const filterQsoList = (list, term) => {
+    if (!term || typeof term !== 'string') return list; // Ensure term is a valid string
+
+    const escapedTerm = escapeRegExp(term.trim());
+    const pattern = escapedTerm.replace(/\?/g, '.');
+    const regex = new RegExp(pattern, 'i'); // Case insensitive
+
+    return list.filter(qso =>
+      Object.values(qso).some(value => {
+        if (typeof value === 'string') {
+          return regex.test(value);
+        } else if (typeof value === 'number' && Number.isInteger(value)) {
+          return regex.test(value.toString());
+        }
+        return false;
+      })
+    );
+  };
+
+  const escapeRegExp = (string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  };
+
+  const filteredQsoList = filterQsoList(qsoList, searchTerm);
+
   return (
     <section className="qso-list">
-      <h2>Logged QSOs</h2>
       <ul>
-        {qsoList.map((qso, index) => (
+        {filteredQsoList.map((qso, index) => (
           <li key={index} className="qso-list-item">
             <div className="qso-item"><strong>Callsign:&nbsp;</strong>{qso.callsign}</div>
             <div className="qso-item"><strong>RST Received:&nbsp;</strong>{qso.rst_received}</div>
