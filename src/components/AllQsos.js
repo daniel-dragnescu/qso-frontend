@@ -11,7 +11,6 @@ const AllQsos = () => {
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
   const [isFilteredView, setIsFilteredView] = useState(false);
   const inputRef = useRef(null);
- 
 
   useEffect(() => {
     fetchQSOs();
@@ -50,14 +49,18 @@ const AllQsos = () => {
     if (trimmedTerm === '') {
       return [];
     }
-  
+
+    if (trimmedTerm === '^' || trimmedTerm === '*' || trimmedTerm === '(' || trimmedTerm === ')' || trimmedTerm === '+' || trimmedTerm === '\\') {
+      return [];
+    }
+
     // Replace "?" with a regex pattern for any letter or digit
     const pattern = trimmedTerm.replace(/\?/g, '[a-zA-Z0-9]');
-  
+
     const regex = new RegExp(`^${pattern}`, 'i');
-  
+
     const fields = ['callsign', 'rst_received', 'rst_sent', 'op', 'qth', 'comments'];
-  
+
     return qsoList.flatMap(qso =>
       fields.flatMap(field =>
         regex.test(qso[field]?.toString()) ? [{ field, value: qso[field], qso }] : []
@@ -78,18 +81,17 @@ const AllQsos = () => {
       setSelectedSuggestionIndex(prevIndex =>
         prevIndex > 0 ? prevIndex - 1 : suggestions.length - 1
       );
-      scrollSuggestionList();
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
       setSelectedSuggestionIndex(prevIndex =>
         prevIndex < suggestions.length - 1 ? prevIndex + 1 : 0
       );
-      scrollSuggestionList();
     } else if (e.key === 'Enter' && suggestions.length > 0) {
       if (selectedSuggestionIndex !== -1) {
         handleSuggestionClick(suggestions[selectedSuggestionIndex]);
       }
     }
+    setTimeout(scrollSuggestionList, 0); // Ensure the suggestion is selected first before scrolling
   };
 
   const scrollSuggestionList = () => {
@@ -98,7 +100,15 @@ const AllQsos = () => {
       if (suggestionsList) {
         const selectedSuggestion = suggestionsList.querySelector('.selected');
         if (selectedSuggestion) {
-          suggestionsList.scrollTop = selectedSuggestion.offsetTop - suggestionsList.offsetTop;
+          const offsetTop = selectedSuggestion.offsetTop;
+          const scrollTop = suggestionsList.scrollTop;
+          const clientHeight = suggestionsList.clientHeight;
+
+          if (offsetTop < scrollTop) {
+            suggestionsList.scrollTop = offsetTop;
+          } else if (offsetTop + selectedSuggestion.clientHeight > scrollTop + clientHeight) {
+            suggestionsList.scrollTop = offsetTop - clientHeight + selectedSuggestion.clientHeight;
+          }
         }
       }
     }
@@ -132,6 +142,7 @@ const AllQsos = () => {
               type="text"
               placeholder="Search QSOs..."
               value={searchTerm}
+              autoComplete="on"
               onChange={handleSearchChange}
               onKeyDown={handleKeyDown}
               className="qso-search-bar"

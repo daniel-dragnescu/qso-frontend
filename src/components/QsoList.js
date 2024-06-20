@@ -9,7 +9,7 @@ const QsoList = ({ qsoList, searchTerm, loading }) => {
     if (!term || typeof term !== 'string') return list; // Ensure term is a valid string
 
     const escapedTerm = escapeRegExp(term.trim());
-    const pattern = escapedTerm.replace(/\?/g, '.');
+    const pattern = escapedTerm.replace(/\?/g, '[0-9]');
     const regex = new RegExp(pattern, 'i'); // Case insensitive
 
     return list.filter(qso =>
@@ -21,7 +21,7 @@ const QsoList = ({ qsoList, searchTerm, loading }) => {
         }
         return false;
       })
-    );
+    ); 
   };
 
   const escapeRegExp = (string) => {
