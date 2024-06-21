@@ -17,6 +17,7 @@ const AllQsos = () => {
 
   useEffect(() => {
     fetchQSOs();
+    loadPersistedCounts(); // Load counts from localStorage on initial mount
   }, []);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ const AllQsos = () => {
       }
     });
     setIndicativeCount(countMap);
+    persistCounts(countMap); // Persist counts to localStorage after updating
   };
 
   const handleSearchChange = (e) => {
@@ -57,8 +59,12 @@ const AllQsos = () => {
     if (term) {
       const newSuggestions = getSuggestions(term);
       setSuggestions(newSuggestions);
+      setIsFilteredView(true); // Set filtered view if there's a search term
     } else {
       setSuggestions([]);
+      setIsFilteredView(false); // Clear filtered view if search term is cleared
+      setSelectedIndicative('');
+      setSuccessMessage('');
     }
   };
 
@@ -67,7 +73,10 @@ const AllQsos = () => {
     if (trimmedTerm === '') {
       return [];
     }
-
+    if (trimmedTerm === '*' || trimmedTerm === '(' || trimmedTerm === ')' || trimmedTerm === '+' || trimmedTerm === '\\' || trimmedTerm === '[') {
+      return [];
+    }
+    
     const pattern = trimmedTerm.replace(/\?/g, '[a-zA-Z0-9]');
     const regex = new RegExp(`^${pattern}`, 'i');
 
@@ -83,19 +92,25 @@ const AllQsos = () => {
   const handleSuggestionClick = (suggestion) => {
     setSearchTerm(suggestion.value.toString());
     setSuggestions([]);
-    setQsoList([suggestion.qso]); // Show only the selected QSO
-    setIsFilteredView(true); // Indicate that we are in filtered view
-    setSelectedIndicative(suggestion.qso.callsign); // Set selected indicative
 
-    // Update indicative count with the updated qsoList
-    const updatedIndicativeCount = {
-      ...indicativeCount,
-      [suggestion.qso.callsign]: (indicativeCount[suggestion.qso.callsign] || 0) + 1
-    };
-    setIndicativeCount(updatedIndicativeCount);
+    // Find the index of the selected QSO in qsoList
+    const qsoIndex = qsoList.findIndex(qso => qso.callsign === suggestion.qso.callsign);
 
-    // Display success message
-    setSuccessMessage(`You worked ${suggestion.qso.callsign} ${updatedIndicativeCount[suggestion.qso.callsign]} times.`);
+    if (qsoIndex !== -1) {
+      // Update the qsoList with the incremented count for the selected QSO
+      const updatedQsoList = [...qsoList];
+      updatedQsoList[qsoIndex] = { ...updatedQsoList[qsoIndex], count: (updatedQsoList[qsoIndex].count || 0) + 1 };
+      setQsoList(updatedQsoList);
+
+      // Update indicative count with the updated qsoList
+      updateIndicativeCount();
+
+      // Display success message
+      setSuccessMessage(`You worked ${suggestion.qso.callsign} ${updatedQsoList[qsoIndex].count} times.`);
+    }
+
+    // Set selected indicative for displaying count if in filtered view
+    setSelectedIndicative(suggestion.qso.callsign);
   };
 
   const handleKeyDown = (e) => {
@@ -120,8 +135,19 @@ const AllQsos = () => {
     setSearchTerm('');
     setSuggestions([]);
     setIsFilteredView(false);
-    setSelectedIndicative(''); // Reset selected indicative
-    fetchQSOs(); // Fetch all QSOs again
+    setSelectedIndicative('');
+    setSuccessMessage(''); // Clear success message when going back
+  };
+
+  const persistCounts = (counts) => {
+    localStorage.setItem('qsoCounts', JSON.stringify(counts));
+  };
+
+  const loadPersistedCounts = () => {
+    const persistedCounts = localStorage.getItem('qsoCounts');
+    if (persistedCounts) {
+      setIndicativeCount(JSON.parse(persistedCounts));
+    }
   };
 
   return (
@@ -156,12 +182,12 @@ const AllQsos = () => {
             )}
           </div>
         </div>
-        {successMessage && <p className="success-message">{successMessage}</p>}
+        {successMessage && searchTerm && <p className="success-message">{successMessage}</p>}
         {isFilteredView && selectedIndicative && indicativeCount[selectedIndicative] !== undefined && (
           <div className="indicative-count">
-            <p>
+            {/* <p>
               You worked {selectedIndicative} {indicativeCount[selectedIndicative]} times.
-            </p>
+            </p> */}
           </div>
         )}
         <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} />
