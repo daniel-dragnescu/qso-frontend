@@ -10,11 +10,18 @@ const AllQsos = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
   const [isFilteredView, setIsFilteredView] = useState(false);
+  const [indicativeCount, setIndicativeCount] = useState({});
+  const [selectedIndicative, setSelectedIndicative] = useState('');
   const inputRef = useRef(null);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetchQSOs();
   }, []);
+
+  useEffect(() => {
+    updateIndicativeCount(); // Update indicative count whenever qsoList or selectedIndicative changes
+  }, [qsoList, selectedIndicative]);
 
   const fetchQSOs = async () => {
     try {
@@ -30,6 +37,17 @@ const AllQsos = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const updateIndicativeCount = () => {
+    const countMap = {};
+    qsoList.forEach(qso => {
+      const { callsign } = qso;
+      if (callsign && typeof callsign === 'string') {
+        countMap[callsign] = countMap[callsign] ? countMap[callsign] + 1 : 1;
+      }
+    });
+    setIndicativeCount(countMap);
   };
 
   const handleSearchChange = (e) => {
@@ -50,13 +68,7 @@ const AllQsos = () => {
       return [];
     }
 
-    if (trimmedTerm === '^' || trimmedTerm === '*' || trimmedTerm === '(' || trimmedTerm === ')' || trimmedTerm === '+' || trimmedTerm === '\\') {
-      return [];
-    }
-
-    // Replace "?" with a regex pattern for any letter or digit
     const pattern = trimmedTerm.replace(/\?/g, '[a-zA-Z0-9]');
-
     const regex = new RegExp(`^${pattern}`, 'i');
 
     const fields = ['callsign', 'rst_received', 'rst_sent', 'op', 'qth', 'comments'];
@@ -73,6 +85,17 @@ const AllQsos = () => {
     setSuggestions([]);
     setQsoList([suggestion.qso]); // Show only the selected QSO
     setIsFilteredView(true); // Indicate that we are in filtered view
+    setSelectedIndicative(suggestion.qso.callsign); // Set selected indicative
+
+    // Update indicative count with the updated qsoList
+    const updatedIndicativeCount = {
+      ...indicativeCount,
+      [suggestion.qso.callsign]: (indicativeCount[suggestion.qso.callsign] || 0) + 1
+    };
+    setIndicativeCount(updatedIndicativeCount);
+
+    // Display success message
+    setSuccessMessage(`You worked ${suggestion.qso.callsign} ${updatedIndicativeCount[suggestion.qso.callsign]} times.`);
   };
 
   const handleKeyDown = (e) => {
@@ -91,43 +114,13 @@ const AllQsos = () => {
         handleSuggestionClick(suggestions[selectedSuggestionIndex]);
       }
     }
-    setTimeout(scrollSuggestionList, 0); // Ensure the suggestion is selected first before scrolling
-  };
-
-  const scrollSuggestionList = () => {
-    if (inputRef.current && inputRef.current.parentNode) {
-      const suggestionsList = inputRef.current.parentNode.querySelector('.suggestions-list');
-      if (suggestionsList) {
-        const selectedSuggestion = suggestionsList.querySelector('.selected');
-        if (selectedSuggestion) {
-          const offsetTop = selectedSuggestion.offsetTop;
-          const scrollTop = suggestionsList.scrollTop;
-          const clientHeight = suggestionsList.clientHeight;
-
-          if (offsetTop < scrollTop) {
-            suggestionsList.scrollTop = offsetTop;
-          } else if (offsetTop + selectedSuggestion.clientHeight > scrollTop + clientHeight) {
-            suggestionsList.scrollTop = offsetTop - clientHeight + selectedSuggestion.clientHeight;
-          }
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, []);
-
-  const escapeRegExp = (string) => {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   };
 
   const handleGoBack = () => {
     setSearchTerm('');
     setSuggestions([]);
     setIsFilteredView(false);
+    setSelectedIndicative(''); // Reset selected indicative
     fetchQSOs(); // Fetch all QSOs again
   };
 
@@ -163,13 +156,23 @@ const AllQsos = () => {
             )}
           </div>
         </div>
+        {successMessage && <p className="success-message">{successMessage}</p>}
+        {isFilteredView && selectedIndicative && indicativeCount[selectedIndicative] !== undefined && (
+          <div className="indicative-count">
+            <p>
+              You worked {selectedIndicative} {indicativeCount[selectedIndicative]} times.
+            </p>
+          </div>
+        )}
         <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} />
         {isFilteredView && (
           <button onClick={handleGoBack} className="go-back-button">
             Go back
           </button>
         )}
-        <p><a href="/">Back to Home</a></p>
+        <div className="go-back">
+          <p><a href="/">Back to Home</a></p>
+        </div>
       </main>
       <Footer />
     </div>

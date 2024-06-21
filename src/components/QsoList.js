@@ -41,6 +41,11 @@ const QsoList = ({ qsoList, searchTerm, loading }) => {
             <div className="qso-item"><strong>Operator:&nbsp;</strong>{qso.op}</div>
             <div className="qso-item"><strong>Location:&nbsp;</strong>{qso.qth}</div>
             <div className="qso-item"><strong>Comments:&nbsp;</strong>{qso.comments}</div>
+            {qso.count && !searchTerm && ( // Display only if count exists and not in filtered view
+              <div className="qso-item">
+                Worked {qso.callsign}: {qso.count} times.
+              </div>
+            )}
           </li>
         ))}
       </ul>

@@ -19,7 +19,7 @@ const QsoForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(formData); // Call parent's handleSubmit function
+    onSubmit(formData);
     setFormData({
       callsign: '',
       rst_received: '',
