@@ -119,6 +119,7 @@ const AllQsos = () => {
     // Set selected indicative for displaying count if in filtered view
     setSelectedIndicative(suggestion.qso.callsign);
   };
+  
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
@@ -197,36 +198,40 @@ const AllQsos = () => {
     <div className="App">
       <Header />
       <main>
-        <div className="logged-qso-header">
-          <h2>Logged QSOs</h2>
-          <div className="search-container">
-            <input
-              type="text"
-              placeholder="Search QSOs..."
-              value={searchTerm}
-              autoComplete="on"
-              onChange={handleSearchChange}
-              onKeyDown={handleKeyDown}
-              className="qso-search-bar"
-              ref={inputRef}
-            />
-            {suggestions.length > 0 && (
-              <ul className="suggestions-list">
-                {suggestions.map((suggestion, index) => (
-                  <li
-                    key={index}
-                    className={`suggestion-item ${index === selectedSuggestionIndex ? 'selected' : ''}`}
-                    onClick={() => handleSuggestionClick(suggestion)}
-                  >
-                    {suggestion.field}: {suggestion.value}
-                  </li>
-                ))}
-              </ul>
-            )}
+        {!editingQso && (
+          <div className="logged-qso-header">
+            <h2>Logged QSOs</h2>
+            <div className="search-container">
+              <input
+                type="text"
+                placeholder="Search QSOs..."
+                value={searchTerm}
+                autoComplete="on"
+                onChange={handleSearchChange}
+                onKeyDown={handleKeyDown}
+                className="qso-search-bar"
+                ref={inputRef}
+              />
+              {suggestions.length > 0 && (
+                <ul className="suggestions-list">
+                  {suggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      className={`suggestion-item ${index === selectedSuggestionIndex ? 'selected' : ''}`}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                    >
+                      {suggestion.field}: {suggestion.value}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
-        </div>
-        {successMessage && searchTerm && <p className="success-message">{successMessage}</p>}
-        {isFilteredView && selectedIndicative && indicativeCount[selectedIndicative] !== undefined && (
+        )}
+        {successMessage && searchTerm && !editingQso && (
+          <p className="success-message">{successMessage}</p>
+        )}
+        {isFilteredView && selectedIndicative && indicativeCount[selectedIndicative] !== undefined && !editingQso && (
           <div className="indicative-count">
             {/* <p>
               You worked {selectedIndicative} {indicativeCount[selectedIndicative]} times.
@@ -298,7 +303,7 @@ const AllQsos = () => {
         ) : (
           <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} />
         )}
-        {isFilteredView && (
+        {isFilteredView && !editingQso && (
           <button onClick={handleGoBack} className="go-back-button">
             Go back
           </button>
@@ -310,6 +315,9 @@ const AllQsos = () => {
       <Footer />
     </div>
   );
+  
+  
+  
 };
 
 export default AllQsos;
