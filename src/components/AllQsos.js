@@ -77,7 +77,9 @@ const AllQsos = () => {
       return [];
     }
     
-    const pattern = trimmedTerm.replace(/\?/g, '[a-zA-Z0-9]');
+    const escapedTerm = escapeRegExp(trimmedTerm); // Escape special characters
+
+    const pattern = escapedTerm.replace(/\?/g, '[a-zA-Z0-9]');
     const regex = new RegExp(`^${pattern}`, 'i');
 
     const fields = ['callsign', 'rst_received', 'rst_sent', 'op', 'qth', 'comments'];
@@ -87,6 +89,10 @@ const AllQsos = () => {
         regex.test(qso[field]?.toString()) ? [{ field, value: qso[field], qso }] : []
       )
     ).slice(0, 10);
+  };
+
+const escapeRegExp = (string) => {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   };
 
   const handleSuggestionClick = (suggestion) => {
