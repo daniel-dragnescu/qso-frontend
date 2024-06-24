@@ -14,6 +14,7 @@ const AllQsos = () => {
   const [selectedIndicative, setSelectedIndicative] = useState('');
   const inputRef = useRef(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [editingQso, setEditingQso] = useState(null);
 
   useEffect(() => {
     fetchQSOs();
@@ -91,8 +92,8 @@ const AllQsos = () => {
     ).slice(0, 10);
   };
 
-const escapeRegExp = (string) => {
-  return string.replace(/[.*+^${}()|[\]\\]/g, '\\$&');
+  const escapeRegExp = (string) => {
+    return string.replace(/[.*+^${}()|[\]\\]/g, '\\$&');
   };
 
   const handleSuggestionClick = (suggestion) => {
@@ -156,6 +157,42 @@ const escapeRegExp = (string) => {
     }
   };
 
+  const handleEdit = (qso) => {
+    setEditingQso(qso);
+  };
+
+  const handleEditChange = (e) => {
+    const { name, value } = e.target;
+    setEditingQso({ ...editingQso, [name]: value });
+  };
+
+  const handleEditSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`http://localhost:3500/qso/${editingQso._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(editingQso),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update QSO');
+      }
+
+      // Update qsoList with the updated QSO
+      const updatedQsoList = qsoList.map(qso =>
+        qso._id === editingQso._id ? editingQso : qso
+      );
+      setQsoList(updatedQsoList);
+      setEditingQso(null); // Clear editing state
+    } catch (error) {
+      console.error('Error updating QSO:', error.message);
+    }
+  };
+
   return (
     <div className="App">
       <Header />
@@ -196,7 +233,71 @@ const escapeRegExp = (string) => {
             </p> */}
           </div>
         )}
-        <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} />
+        {editingQso ? (
+          <div className="edit-qso-form">
+            <h3>Edit QSO</h3>
+            <form onSubmit={handleEditSubmit}>
+              <div>
+                <label>Callsign:</label>
+                <input
+                  type="text"
+                  name="callsign"
+                  value={editingQso.callsign}
+                  onChange={handleEditChange}
+                />
+              </div>
+              <div>
+                <label>RST Received:</label>
+                <input
+                  type="text"
+                  name="rst_received"
+                  value={editingQso.rst_received}
+                  onChange={handleEditChange}
+                />
+              </div>
+              <div>
+                <label>RST Sent:</label>
+                <input
+                  type="text"
+                  name="rst_sent"
+                  value={editingQso.rst_sent}
+                  onChange={handleEditChange}
+                />
+              </div>
+              <div>
+                <label>Operator:</label>
+                <input
+                  type="text"
+                  name="op"
+                  value={editingQso.op}
+                  onChange={handleEditChange}
+                />
+              </div>
+              <div>
+                <label>Location:</label>
+                <input
+                  type="text"
+                  name="qth"
+                  value={editingQso.qth}
+                  onChange={handleEditChange}
+                />
+              </div>
+              <div>
+                <label>Comments:</label>
+                <input
+                  type="text"
+                  name="comments"
+                  value={editingQso.comments}
+                  onChange={handleEditChange}
+                />
+              </div>
+              <button type="submit">Save</button>
+              <button type="button" onClick={() => setEditingQso(null)}>Cancel</button>
+            </form>
+          </div>
+        ) : (
+          <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} />
+        )}
         {isFilteredView && (
           <button onClick={handleGoBack} className="go-back-button">
             Go back
@@ -212,3 +313,4 @@ const escapeRegExp = (string) => {
 };
 
 export default AllQsos;
+

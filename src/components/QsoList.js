@@ -1,6 +1,6 @@
 import React from 'react';
 
-const QsoList = ({ qsoList, searchTerm, loading }) => {
+const QsoList = ({ qsoList, searchTerm, loading, onEdit }) => {
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -46,6 +46,7 @@ const QsoList = ({ qsoList, searchTerm, loading }) => {
                 Worked {qso.callsign}: {qso.count} times.
               </div>
             )}
+            <button onClick={() => onEdit(qso)}>Edit</button>
           </li>
         ))}
       </ul>
