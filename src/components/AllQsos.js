@@ -92,7 +92,7 @@ const AllQsos = () => {
   };
 
 const escapeRegExp = (string) => {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return string.replace(/[.*+^${}()|[\]\\]/g, '\\$&');
   };
 
   const handleSuggestionClick = (suggestion) => {
