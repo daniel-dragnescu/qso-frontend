@@ -212,3 +212,124 @@ button[type="submit"]:focus {
 .go-back-button:hover {
   background-color: #5e6061;
 }
+
+.qso-list-item button {
+  background-color: #198754; 
+  color: white;
+  border: none;
+  padding: 8px 16px; 
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em; 
+  transition: background-color 0.3s ease;
+  margin-top: 5px;
+}
+
+.qso-list-item button:hover {
+  background-color: #45a049; 
+}
+
+.qso-list-item button:active {
+  background-color: #3e8e41; 
+}
+
+.qso-list-item button:focus {
+  outline: none;
+  box-shadow: 0 0 3px 2px rgba(76, 175, 80, 0.5); 
+}
+
+.edit-qso-form form {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-between; 
+  align-items: center;
+}
+
+.edit-qso-form form div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px; 
+}
+
+.edit-qso-form form label {
+  min-width: 120px; 
+  margin-right: 10px; 
+  text-align: right; 
+}
+
+.edit-qso-form form input,
+.edit-qso-form form textarea {
+  flex: 1; 
+  padding: 6px; 
+  box-sizing: border-box;
+  height: auto; 
+  font-size: 0.9em; 
+}
+
+@media (max-width: 768px) {
+  .edit-qso-form form {
+    grid-template-columns: 1fr; 
+  }
+
+  .edit-qso-form form label {
+    text-align: left; 
+  }
+}
+
+.edit-qso-form form button[type="submit"] {
+  background-color: #198754; 
+  color: white; 
+  border: none; 
+  padding: 10.5px 27px; 
+  border-radius: 4px; 
+  cursor: pointer; 
+  font-size: 1em; 
+  transition: background-color 0.3s ease; 
+  max-width: 120px; 
+  margin-left: 50px;
+}
+
+.edit-qso-form form button[type="submit"]:hover {
+  background-color: #45a049; 
+}
+
+.edit-qso-form form button[type="submit"]:active {
+  background-color: #3e8e41; 
+}
+
+.edit-qso-form form button[type="submit"]:focus {
+  outline: none;
+  box-shadow: 0 0 3px 2px rgba(69, 70, 70, 0.5); 
+}
+
+.edit-qso-form button[type="reset"] {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10.7px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+  margin-right: 45px;
+  margin-top: 9px;
+}
+
+.edit-qso-form button[type="reset"]:hover {
+  background-color: rgb(188, 9, 9);
+}
+
+.edit-qso-form button[type="reset"]:active {
+  background-color: firebrick;
+}
+
+.edit-qso-form button[type="reset"]:focus {
+  outline: none;
+  box-shadow: 0 0 3px 2px rgba(255, 0, 0, 0.5);
+}
+
+
+
+
+
+

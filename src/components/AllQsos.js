@@ -292,7 +292,7 @@ const AllQsos = () => {
                 />
               </div>
               <button type="submit">Save</button>
-              <button type="button" onClick={() => setEditingQso(null)}>Cancel</button>
+              <button type="reset" onClick={() => setEditingQso(null)}>Cancel</button>
             </form>
           </div>
         ) : (
