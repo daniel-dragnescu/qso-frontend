@@ -14,6 +14,7 @@ const AllQsos = () => {
   const [selectedIndicative, setSelectedIndicative] = useState('');
   const inputRef = useRef(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [deleteMessage, setDeleteMessage] = useState('');
   const [editingQso, setEditingQso] = useState(null);
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const AllQsos = () => {
 
   const updateIndicativeCount = () => {
     const countMap = {};
-    qsoList.forEach(qso => {
+    qsoList.forEach((qso) => {
       const { callsign } = qso;
       if (callsign && typeof callsign === 'string') {
         countMap[callsign] = countMap[callsign] ? countMap[callsign] + 1 : 1;
@@ -65,19 +66,27 @@ const AllQsos = () => {
       setSuggestions([]);
       setIsFilteredView(false); // Clear filtered view if search term is cleared
       setSelectedIndicative('');
-      setSuccessMessage('');
+      setSuccessMessage(''); // Clear success message when search term is cleared
     }
   };
+  
 
   const getSuggestions = (term) => {
     const trimmedTerm = term.trim();
     if (trimmedTerm === '') {
       return [];
     }
-    if (trimmedTerm === '*' || trimmedTerm === '(' || trimmedTerm === ')' || trimmedTerm === '+' || trimmedTerm === '\\' || trimmedTerm === '[') {
+    if (
+      trimmedTerm === '*' ||
+      trimmedTerm === '(' ||
+      trimmedTerm === ')' ||
+      trimmedTerm === '+' ||
+      trimmedTerm === '\\' ||
+      trimmedTerm === '['
+    ) {
       return [];
     }
-    
+
     const escapedTerm = escapeRegExp(trimmedTerm); // Escape special characters
 
     const pattern = escapedTerm.replace(/\?/g, '[a-zA-Z0-9]');
@@ -85,11 +94,15 @@ const AllQsos = () => {
 
     const fields = ['callsign', 'rst_received', 'rst_sent', 'op', 'qth', 'comments'];
 
-    return qsoList.flatMap(qso =>
-      fields.flatMap(field =>
-        regex.test(qso[field]?.toString()) ? [{ field, value: qso[field], qso }] : []
+    return qsoList
+      .flatMap((qso) =>
+        fields.flatMap((field) =>
+          regex.test(qso[field]?.toString())
+            ? [{ field, value: qso[field], qso }]
+            : []
+        )
       )
-    ).slice(0, 10);
+      .slice(0, 10);
   };
 
   const escapeRegExp = (string) => {
@@ -101,35 +114,39 @@ const AllQsos = () => {
     setSuggestions([]);
 
     // Find the index of the selected QSO in qsoList
-    const qsoIndex = qsoList.findIndex(qso => qso.callsign === suggestion.qso.callsign);
+    const qsoIndex = qsoList.findIndex((qso) => qso.callsign === suggestion.qso.callsign);
 
     if (qsoIndex !== -1) {
       // Update the qsoList with the incremented count for the selected QSO
       const updatedQsoList = [...qsoList];
-      updatedQsoList[qsoIndex] = { ...updatedQsoList[qsoIndex], count: (updatedQsoList[qsoIndex].count || 0) + 1 };
+      updatedQsoList[qsoIndex] = {
+        ...updatedQsoList[qsoIndex],
+        count: (updatedQsoList[qsoIndex].count || 0) + 1,
+      };
       setQsoList(updatedQsoList);
 
       // Update indicative count with the updated qsoList
       updateIndicativeCount();
 
       // Display success message
-      setSuccessMessage(`You worked ${suggestion.qso.callsign} ${updatedQsoList[qsoIndex].count} times.`);
+      setSuccessMessage(
+        `You worked ${suggestion.qso.callsign} ${updatedQsoList[qsoIndex].count} times.`
+      );
     }
 
     // Set selected indicative for displaying count if in filtered view
     setSelectedIndicative(suggestion.qso.callsign);
   };
-  
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
       e.preventDefault();
-      setSelectedSuggestionIndex(prevIndex =>
+      setSelectedSuggestionIndex((prevIndex) =>
         prevIndex > 0 ? prevIndex - 1 : suggestions.length - 1
       );
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
-      setSelectedSuggestionIndex(prevIndex =>
+      setSelectedSuggestionIndex((prevIndex) =>
         prevIndex < suggestions.length - 1 ? prevIndex + 1 : 0
       );
     } else if (e.key === 'Enter' && suggestions.length > 0) {
@@ -184,13 +201,37 @@ const AllQsos = () => {
       }
 
       // Update qsoList with the updated QSO
-      const updatedQsoList = qsoList.map(qso =>
+      const updatedQsoList = qsoList.map((qso) =>
         qso._id === editingQso._id ? editingQso : qso
       );
       setQsoList(updatedQsoList);
       setEditingQso(null); // Clear editing state
     } catch (error) {
       console.error('Error updating QSO:', error.message);
+    }
+  };
+
+  const handleDeleteQso = async (id) => {
+    if (window.confirm('Are you sure you want to delete this QSO?')) {
+      try {
+        const response = await fetch(`http://localhost:3500/qso/${id}`, {
+          method: 'DELETE',
+        });
+  
+        if (!response.ok) {
+          throw new Error('Failed to delete QSO');
+        }
+  
+        const updatedQsoList = qsoList.filter(qso => qso._id !== id);
+        setQsoList(updatedQsoList);
+        setDeleteMessage('QSO deleted successfully.');
+  
+        setTimeout(() => {
+          setDeleteMessage('');
+        }, 3000); // Clear deleteMessage after 3 seconds
+      } catch (error) {
+        console.error('Error deleting QSO:', error.message);
+      }
     }
   };
 
@@ -237,6 +278,9 @@ const AllQsos = () => {
               You worked {selectedIndicative} {indicativeCount[selectedIndicative]} times.
             </p> */}
           </div>
+        )}
+        {deleteMessage && (
+          <p className="success-message">{deleteMessage}</p>
         )}
         {editingQso ? (
           <div className="edit-qso-form">
@@ -301,7 +345,7 @@ const AllQsos = () => {
             </form>
           </div>
         ) : (
-          <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} />
+          <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} onDelete={handleDeleteQso} />
         )}
         {isFilteredView && !editingQso && (
           <button onClick={handleGoBack} className="go-back-button">
@@ -316,9 +360,8 @@ const AllQsos = () => {
     </div>
   );
   
-  
-  
 };
 
 export default AllQsos;
 
+                     

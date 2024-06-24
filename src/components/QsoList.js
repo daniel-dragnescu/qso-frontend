@@ -1,6 +1,6 @@
 import React from 'react';
 
-const QsoList = ({ qsoList, searchTerm, loading, onEdit }) => {
+const QsoList = ({ qsoList, searchTerm, loading, onEdit, onDelete }) => {
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -12,8 +12,8 @@ const QsoList = ({ qsoList, searchTerm, loading, onEdit }) => {
     const pattern = escapedTerm.replace(/\?/g, '[0-9]');
     const regex = new RegExp(pattern, 'i'); // Case insensitive
 
-    return list.filter(qso =>
-      Object.values(qso).some(value => {
+    return list.filter((qso) =>
+      Object.values(qso).some((value) => {
         if (typeof value === 'string') {
           return regex.test(value);
         } else if (typeof value === 'number' && Number.isInteger(value)) {
@@ -21,7 +21,7 @@ const QsoList = ({ qsoList, searchTerm, loading, onEdit }) => {
         }
         return false;
       })
-    ); 
+    );
   };
 
   const escapeRegExp = (string) => {
@@ -35,13 +35,32 @@ const QsoList = ({ qsoList, searchTerm, loading, onEdit }) => {
       <ul>
         {filteredQsoList.map((qso, index) => (
           <li key={index} className="qso-list-item">
-            <div className="qso-item"><strong>Callsign:&nbsp;</strong>{qso.callsign}</div>
-            <div className="qso-item"><strong>RST Received:&nbsp;</strong>{qso.rst_received}</div>
-            <div className="qso-item"><strong>RST Sent:&nbsp;</strong>{qso.rst_sent}</div>
-            <div className="qso-item"><strong>Operator:&nbsp;</strong>{qso.op}</div>
-            <div className="qso-item"><strong>Location:&nbsp;</strong>{qso.qth}</div>
-            <div className="qso-item"><strong>Comments:&nbsp;</strong>{qso.comments}</div>
+            <div className="qso-item">
+              <strong>Callsign:&nbsp;</strong>
+              {qso.callsign}
+            </div>
+            <div className="qso-item">
+              <strong>RST Received:&nbsp;</strong>
+              {qso.rst_received}
+            </div>
+            <div className="qso-item">
+              <strong>RST Sent:&nbsp;</strong>
+              {qso.rst_sent}
+            </div>
+            <div className="qso-item">
+              <strong>Operator:&nbsp;</strong>
+              {qso.op}
+            </div>
+            <div className="qso-item">
+              <strong>Location:&nbsp;</strong>
+              {qso.qth}
+            </div>
+            <div className="qso-item">
+              <strong>Comments:&nbsp;</strong>
+              {qso.comments}
+            </div>
             <button onClick={() => onEdit(qso)}>Edit</button>
+            <button onClick={() => onDelete(qso._id)}>Delete</button>
           </li>
         ))}
       </ul>
