@@ -112,31 +112,31 @@ const AllQsos = () => {
   const handleSuggestionClick = (suggestion) => {
     setSearchTerm(suggestion.value.toString());
     setSuggestions([]);
-
+  
     // Find the index of the selected QSO in qsoList
-    const qsoIndex = qsoList.findIndex((qso) => qso.callsign === suggestion.qso.callsign);
-
+    const qsoIndex = qsoList.findIndex(qso => qso.callsign === suggestion.qso.callsign);
+  
     if (qsoIndex !== -1) {
       // Update the qsoList with the incremented count for the selected QSO
       const updatedQsoList = [...qsoList];
-      updatedQsoList[qsoIndex] = {
-        ...updatedQsoList[qsoIndex],
-        count: (updatedQsoList[qsoIndex].count || 0) + 1,
-      };
+      updatedQsoList[qsoIndex] = { ...updatedQsoList[qsoIndex], count: (updatedQsoList[qsoIndex].count || 0) + 1 };
       setQsoList(updatedQsoList);
-
+  
       // Update indicative count with the updated qsoList
       updateIndicativeCount();
-
+  
+      // Determine the correct wording for the success message
+      const count = updatedQsoList[qsoIndex].count;
+      const timesText = count === 1 ? 'time' : 'times';
+  
       // Display success message
-      setSuccessMessage(
-        `You worked ${suggestion.qso.callsign} ${updatedQsoList[qsoIndex].count} times.`
-      );
+      setSuccessMessage(`You worked ${suggestion.qso.callsign} ${count} ${timesText}.`);
     }
-
+  
     // Set selected indicative for displaying count if in filtered view
     setSelectedIndicative(suggestion.qso.callsign);
   };
+  
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
