@@ -17,6 +17,7 @@
 }
 
 main {
+  position: relative;
   margin: 20px auto;
   max-width: 800px;
   padding: 20px;
@@ -342,6 +343,26 @@ button[type="submit"]:focus {
 
 .edit-qso-form button[type="reset"]:active {
   background-color: firebrick;
+}
+
+.scroll-to-top {
+  position: absolute;
+  bottom: 24px;
+  right: 20px;
+  background-color: black;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background-color 0.3s ease;
+}
+
+
+.scroll-to-top:hover {
+  background-color: #4e4e4e;
 }
 
 
