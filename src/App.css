@@ -213,29 +213,50 @@ button[type="submit"]:focus {
   background-color: #5e6061;
 }
 
-.qso-list-item button {
-  background-color: #198754; 
+.qso-list-item .edit-qso-button {
+  background-color: #198754;
   color: white;
   border: none;
-  padding: 8px 16px; 
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1em; 
+  font-size: 1em;
   transition: background-color 0.3s ease;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
-.qso-list-item button:hover {
-  background-color: #45a049; 
+.qso-list-item .edit-qso-button:hover {
+  background-color: #45a049;
 }
 
-.qso-list-item button:active {
-  background-color: #3e8e41; 
+.qso-list-item .edit-qso-button:active {
+  background-color: #3e8e41;
 }
 
-.qso-list-item button:focus {
+.qso-list-item .edit-qso-button:focus {
   outline: none;
-  box-shadow: 0 0 3px 2px rgba(76, 175, 80, 0.5); 
+  box-shadow: 0 0 3px 2px rgba(76, 175, 80, 0.5);
+}
+
+.qso-list-item .delete-qso-button {
+  background-color: #dc3545; 
+  color: white;
+  border: none;
+  padding: 7.7px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+  margin-top: -36px;
+  margin-left: 80px;
+}
+
+.qso-list-item .delete-qso-button:hover {
+  background-color: rgb(188, 9, 9); 
+}
+
+.qso-list-item .delete-qso-button:active {
+  background-color: firebrick; 
 }
 
 .edit-qso-form form {
@@ -323,10 +344,8 @@ button[type="submit"]:focus {
   background-color: firebrick;
 }
 
-.edit-qso-form button[type="reset"]:focus {
-  outline: none;
-  box-shadow: 0 0 3px 2px rgba(255, 0, 0, 0.5);
-}
+
+
 
 
 
