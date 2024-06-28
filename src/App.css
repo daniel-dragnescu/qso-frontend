@@ -94,7 +94,7 @@ footer {
   color: #000000;
 }
 
-button[type="submit"] {
+.submit-qso {
   background-color: #000000;
   color: white;
   border: none;
@@ -106,15 +106,15 @@ button[type="submit"] {
   margin-top: 10px;
 }
 
-button[type="submit"]:hover {
+.submit-qso:hover {
   background-color: #2e2e2e;
 }
 
-button[type="submit"]:active {
+.submit-qso:active {
   background-color: #003d80;
 }
 
-button[type="submit"]:focus {
+.submit-qso:focus {
   outline: none;
   box-shadow: 0 0 3px 2px rgba(69, 70, 70, 0.5);
 }
@@ -298,7 +298,7 @@ button[type="submit"]:focus {
   }
 }
 
-.edit-qso-form form button[type="submit"] {
+.save-button {
   background-color: #198754; 
   color: white; 
   border: none; 
@@ -309,22 +309,23 @@ button[type="submit"]:focus {
   transition: background-color 0.3s ease; 
   max-width: 120px; 
   margin-left: 50px;
+  margin-top: 0.5px;
 }
 
-.edit-qso-form form button[type="submit"]:hover {
+.save-button:hover {
   background-color: #45a049; 
 }
 
-.edit-qso-form form button[type="submit"]:active {
+.save-button:active {
   background-color: #3e8e41; 
 }
 
-.edit-qso-form form button[type="submit"]:focus {
+.save-button:focus {
   outline: none;
   box-shadow: 0 0 3px 2px rgba(69, 70, 70, 0.5); 
 }
 
-.edit-qso-form button[type="reset"] {
+.edit-cancel {
   background-color: #dc3545;
   color: white;
   border: none;
@@ -334,20 +335,20 @@ button[type="submit"]:focus {
   font-size: 1em;
   transition: background-color 0.3s ease;
   margin-right: 45px;
-  margin-top: 9px;
+  margin-top: 1px;
 }
 
-.edit-qso-form button[type="reset"]:hover {
+.edit-cancel:hover {
   background-color: rgb(188, 9, 9);
 }
 
-.edit-qso-form button[type="reset"]:active {
+.edit-cancel:active {
   background-color: firebrick;
 }
 
 .scroll-to-top {
   position: absolute;
-  bottom: 24px;
+  bottom: 12px;
   right: 20px;
   background-color: black;
   color: rgb(255, 255, 255);
@@ -362,6 +363,11 @@ button[type="submit"]:focus {
 
 .scroll-to-top:hover {
   background-color: #4e4e4e;
+}
+
+.back-to-home {
+  margin-top: 20px;
+  margin-bottom: 0;
 }
 
 

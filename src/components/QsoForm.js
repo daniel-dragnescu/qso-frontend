@@ -47,7 +47,7 @@ const QsoForm = ({ onSubmit }) => {
         <label htmlFor="comments">Comments:</label>
         <textarea id="comments" name="comments" rows="3" value={formData.comments} onChange={handleChange}></textarea>
         <div className="form-actions">
-          <button type="submit">Submit</button>
+          <button className="submit-qso">Submit</button>
         </div>
       </form>
     </section>

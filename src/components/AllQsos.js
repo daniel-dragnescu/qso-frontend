@@ -284,9 +284,9 @@ const AllQsos = () => {
   
         {isFilteredView && selectedIndicative && indicativeCount[selectedIndicative] !== undefined && !editingQso && (
           <div className="indicative-count">
-            <p>
+            {/* <p>
               You worked {selectedIndicative} {indicativeCount[selectedIndicative]} times.
-            </p>
+            </p> */}
           </div>
         )}
   
@@ -352,8 +352,8 @@ const AllQsos = () => {
                   onChange={handleEditChange}
                 />
               </div>
-              <button type="submit">Save</button>
-              <button type="reset" onClick={() => setEditingQso(null)}>Cancel</button>
+              <button className='save-button'>Save</button>
+              <button className="edit-cancel" onClick={() => setEditingQso(null)}>Cancel</button>
             </form>
           </div>
         ) : (
@@ -367,7 +367,9 @@ const AllQsos = () => {
         )}
   
         <div className="go-back">
-          <p><a href="/">Back to Home</a></p>
+          <p className="back-to-home">
+            <a href="/">Back to Home</a>
+            </p>
         </div>
   
         {/* Scroll to Top Button */}
