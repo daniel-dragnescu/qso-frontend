@@ -60,7 +60,7 @@ const QsoList = ({ qsoList, searchTerm, loading, onEdit, onDelete }) => {
               {qso.comments}
             </div>
             <button className="edit-qso-button" onClick={() => onEdit(qso)}>Edit</button>
-            <button className="delete-qso-button" onClick={() => onDelete(qso._id)}>Delete</button>
+            <button className="delete-qso-button" onClick={() => onDelete(qso)}>Delete</button>
           </li>
         ))}
       </ul>

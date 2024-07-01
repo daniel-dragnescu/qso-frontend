@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import QsoList from './QsoList';
 import Header from './Header';
 import Footer from './Footer';
+import ConfirmModal from './ConfirmModal';
 
 const AllQsos = () => {
   const [qsoList, setQsoList] = useState([]);
@@ -14,8 +15,19 @@ const AllQsos = () => {
   const [selectedIndicative, setSelectedIndicative] = useState('');
   const inputRef = useRef(null);
   const [successMessage, setSuccessMessage] = useState('');
-  const [deleteMessage, setDeleteMessage] = useState('');
   const [editingQso, setEditingQso] = useState(null);
+  const [qsToDelete, setQsToDelete] = useState(null);
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+
+  // Function to disable scrolling
+  const disableScroll = () => {
+    document.body.style.overflow = 'hidden';
+  };
+
+  // Function to enable scrolling
+  const enableScroll = () => {
+    document.body.style.overflow = 'auto';
+  };
 
   useEffect(() => {
     fetchQSOs();
@@ -113,7 +125,7 @@ const AllQsos = () => {
     setSuggestions([]);
 
     // Find the index of the selected QSO in qsoList
-    const qsoIndex = qsoList.findIndex(qso => qso.callsign === suggestion.qso.callsign);
+    const qsoIndex = qsoList.findIndex((qso) => qso.callsign === suggestion.qso.callsign);
 
     if (qsoIndex !== -1) {
       // Update the qsoList with the incremented count for the selected QSO
@@ -135,7 +147,6 @@ const AllQsos = () => {
     // Set selected indicative for displaying count if in filtered view
     setSelectedIndicative(suggestion.qso.callsign);
   };
-
 
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
@@ -210,10 +221,17 @@ const AllQsos = () => {
     }
   };
 
-  const handleDeleteQso = async (id) => {
-    if (window.confirm('Are you sure you want to delete this QSO?')) {
+  const handleDeleteClick = (qso) => {
+    setQsToDelete(qso);
+    setIsConfirmModalVisible(true);
+    disableScroll(); // Call function to disable scrolling when modal is opened
+  };
+
+  const handleConfirmDelete = async () => { 
+    if (qsToDelete) {
+      const { _id } = qsToDelete;
       try {
-        const response = await fetch(`http://localhost:3500/qso/${id}`, {
+        const response = await fetch(`http://localhost:3500/qso/${_id}`, {
           method: 'DELETE',
         });
 
@@ -221,23 +239,34 @@ const AllQsos = () => {
           throw new Error('Failed to delete QSO');
         }
 
-        const updatedQsoList = qsoList.filter(qso => qso._id !== id);
+        const updatedQsoList = qsoList.filter((qso) => qso._id !== _id);
         setQsoList(updatedQsoList);
-        setDeleteMessage('QSO deleted successfully.');
+        setQsToDelete(null);
+        setIsConfirmModalVisible(false);
+        enableScroll(); // Re-enable scrolling after confirming deletion
+        setSuccessMessage('QSO deleted successfully.');
 
         setTimeout(() => {
-          setDeleteMessage('');
-        }, 3000); // Clear deleteMessage after 3 seconds
+          setSuccessMessage('');
+        }, 3000); // Clear success message after 3 seconds
       } catch (error) {
         console.error('Error deleting QSO:', error.message);
+        setIsConfirmModalVisible(false);
+        enableScroll(); // Re-enable scrolling even if deletion fails
       }
     }
+  };
+
+  const handleCancelDelete = () => {
+    setIsConfirmModalVisible(false);
+    setQsToDelete(null);
+    enableScroll(); // Call function to enable scrolling when modal is closed
   };
 
   const handleScrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -277,11 +306,11 @@ const AllQsos = () => {
             </div>
           </div>
         )}
-  
-        {successMessage && searchTerm && !editingQso && (
+
+        {successMessage && /* searchTerm &&  */!editingQso && (
           <p className="success-message">{successMessage}</p>
         )}
-  
+
         {isFilteredView && selectedIndicative && indicativeCount[selectedIndicative] !== undefined && !editingQso && (
           <div className="indicative-count">
             {/* <p>
@@ -289,11 +318,15 @@ const AllQsos = () => {
             </p> */}
           </div>
         )}
-  
-        {deleteMessage && (
-          <p className="success-message">{deleteMessage}</p>
+
+        {isConfirmModalVisible && (
+          <ConfirmModal
+            message="Are you sure you want to delete this QSO?"
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
+          />
         )}
-  
+
         {editingQso ? (
           <div className="edit-qso-form">
             <h3>Edit QSO</h3>
@@ -357,29 +390,30 @@ const AllQsos = () => {
             </form>
           </div>
         ) : (
-          <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} onDelete={handleDeleteQso} />
+          <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} onDelete={handleDeleteClick} />
         )}
-  
+
         {isFilteredView && !editingQso && (
           <button onClick={handleGoBack} className="go-back-button">
             Go back
           </button>
         )}
-  
+
         <div className="go-back">
           <p className="back-to-home">
             <a href="/">Back to Home</a>
-            </p>
+          </p>
         </div>
-  
+
         {/* Scroll to Top Button */}
         <button className="scroll-to-top" onClick={handleScrollToTop}>
           Back to Top
         </button>
-  
       </main>
       <Footer />
     </div>
   );
 }
-  export default AllQsos;
+
+export default AllQsos;
+
