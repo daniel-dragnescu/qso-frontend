@@ -53,7 +53,7 @@ const RegisterForm = () => {
         <label htmlFor="password">Password:</label>
         <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required />
         
-        <button type="submit">Register</button>
+        <button type="submit" className="regist-submit-btn">Register</button>
       </form>
     </section>
   );

@@ -457,4 +457,60 @@ footer {
   }
 }
 
+.regist-btn {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  margin: 20px 0;
+  transition: background-color 0.3s ease;
+  margin-right: 10px;
+}
 
+.regist-btn:hover {
+  background-color: #2e2e2e;
+}
+
+.login-btn {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  margin: 20px 0;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.login-btn:hover {
+  background-color: #2e2e2e;
+}
+
+.register-main {
+  padding-bottom: 140px;
+}
+
+.landing-buttons {
+  margin-top: 110px;
+  margin-bottom: 200px;
+}
+
+.regist-text {
+ margin-left: 10px;
+ font-size: 17px;
+}
+
+.login-text {
+ margin-left: 10px;
+ font-size: 17px;
+}
+
+.radio-img {
+ height: 200px;
+ margin-top: 40px;
+}
