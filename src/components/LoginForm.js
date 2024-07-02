@@ -42,7 +42,7 @@ const LoginForm = () => {
 
   return (
     <section className="login-form">
-      <h2>Login</h2>
+      <h2>Login to your account</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="email">Email:</label>
         <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
