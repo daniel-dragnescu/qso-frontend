@@ -50,7 +50,7 @@ const RegisterForm = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
+      <header className="App-header app-header-register">
         <h1>Welcome to Ham Radio Log</h1>
       </header>
       <main className="register-main">
