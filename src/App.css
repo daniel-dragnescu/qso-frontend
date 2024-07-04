@@ -27,14 +27,19 @@ main {
 }
 
 form {
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
   justify-content: center;
-  margin: 20px auto;
+  margin: 50px auto;
   width: 100%; 
   max-width: 360px; 
-  padding: 0 20px; 
+  padding: 0 20px;
+   
 }
 
 .qso-form label {
+  font-weight: bold;
   margin-bottom: 5px;
   width: 100%; 
   text-align: left;
@@ -46,6 +51,8 @@ form {
   width: 100%; 
   padding: 8px;  
   box-sizing: border-box; 
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .qso-form textarea {
@@ -208,10 +215,11 @@ footer {
   font-size: 1em;
   margin: 20px 0;
   transition: background-color 0.3s ease;
+ 
 }
 
 .go-back-button:hover {
-  background-color: #4e4e4e;
+  background-color: #2e2e2e;
 }
 
 .qso-list-item .edit-qso-button {
@@ -228,7 +236,7 @@ footer {
 
 .qso-list-item .edit-qso-button:hover {
   background-color: #45a049;
-}
+} 
 
 .qso-list-item .edit-qso-button:active {
   background-color: #3e8e41;
@@ -300,14 +308,13 @@ footer {
 
 .save-button {
   background-color: #198754; 
-  color: white; 
-  border: none; 
-  padding: 10.5px 27px; 
-  border-radius: 4px; 
-  cursor: pointer; 
-  font-size: 1em; 
-  transition: background-color 0.3s ease; 
-  max-width: 120px; 
+  color: white;
+  border: none;
+  padding: 10.5px 27px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
   margin-left: 50px;
   margin-top: 0.5px;
 }
@@ -328,14 +335,14 @@ footer {
 .edit-cancel {
   background-color: #dc3545;
   color: white;
-  border: none;
-  padding: 10.7px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
-  margin-right: 45px;
-  margin-top: 1px;
+    border: none;
+    padding: 10.5px 27px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease;
+    margin-left: 50px;
+    margin-top: 0.5px;
 }
 
 .edit-cancel:hover {
@@ -491,7 +498,7 @@ footer {
   background-color: #2e2e2e;
 }
 
-.register-main {
+.landing-main {
   padding-bottom: 140px;
 }
 
@@ -514,3 +521,89 @@ footer {
  height: 200px;
  margin-top: 40px;
 }
+
+.register-main {
+  padding-bottom: 200px;
+  padding-top: 100px;
+}
+
+.register-section {
+  text-align: center;
+  
+}
+
+.register-form h2 {
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.form-register {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.regist-submit-btn {
+  margin-right: 20px;
+  margin-left: 15px;
+  background-color: #198754;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.regist-submit-btn:hover {
+  background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+  .form-group input {
+    width: calc(100% - 20px); 
+  }
+}
+
+.go-back-btn {
+  margin-left: 25px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.go-back-btn:hover {
+  background-color: #2e2e2e;
+}
+
+.form-buttons {
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-between; 
+}
+

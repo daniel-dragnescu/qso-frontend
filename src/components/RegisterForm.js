@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
   const [formData, setFormData] = React.useState({
@@ -6,6 +7,9 @@ const RegisterForm = () => {
     callsign: '',
     password: ''
   });
+
+  const navigate = useNavigate();
+
 
   const handleChange = (e) => {
     setFormData({
@@ -40,22 +44,44 @@ const RegisterForm = () => {
     }
   };
 
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
   return (
-    <section className="register-form">
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">Email:</label>
-        <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-        
-        <label htmlFor="callsign">Callsign:</label>
-        <input type="text" id="callsign" name="callsign" value={formData.callsign} onChange={handleChange} required />
-        
-        <label htmlFor="password">Password:</label>
-        <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} required />
-        
-        <button type="submit" className="regist-submit-btn">Register</button>
-      </form>
-    </section>
+    <div className="App">
+      <header className="App-header">
+        <h1>Welcome to Ham Radio Log</h1>
+      </header>
+      <main className="register-main">
+        <section className="register-section">
+          <h2>Register</h2>
+          <form onSubmit={handleSubmit} className="form-register">
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input type="email" id="email" name="email" className="regist-input" value={formData.email} onChange={handleChange} required />
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="callsign">Callsign:</label>
+              <input type="text" id="callsign" name="callsign" className="regist-input" value={formData.callsign} onChange={handleChange} required />
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="password">Password:</label>
+              <input type="password" id="password" name="password" className="regist-input" value={formData.password} onChange={handleChange} required />
+            </div>
+            <div className="form-buttons">
+            <button type="submit" className="regist-submit-btn">Register</button>
+            <button type="button" className="go-back-btn" onClick={handleGoBack}>Go Back</button>
+            </div>
+          </form>
+        </section>
+      </main>
+      <footer>
+        <p>&copy; {new Date().getFullYear()} Ham Radio Log. All rights reserved.</p>
+      </footer>
+    </div>
   );
 };
 

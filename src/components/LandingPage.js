@@ -7,7 +7,7 @@ const LandingPage = () => {
       <header className="App-header">
         <h1>Welcome to Ham Radio Log</h1>
       </header>
-      <main className="register-main">
+      <main className="landing-main">
         <img className="radio-img" src={`${process.env.PUBLIC_URL}/radio-img.png`} alt="Radio Image"></img>
         <div className="landing-page">
           <div className="landing-buttons">
