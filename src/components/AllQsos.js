@@ -401,7 +401,7 @@ const AllQsos = () => {
 
         <div className="go-back">
           <p className="back-to-home">
-            <a href="/">Back to Home
+            <a href="/create-new-qso">Create a New QSO
             </a>
           </p>
         </div>
