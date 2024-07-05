@@ -1,70 +1,69 @@
-# Getting Started with Create React App
+# HamRadioLog
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+### Description
 
-In the project directory, you can run:
+HamRadioLog Frontend is the user interface for the HamRadioLog web application, designed for amateur radio (ham radio) operators to manage and track their communications. This frontend interacts with the backend server to provide a seamless experience for logging QSOs (contacts) and managing user accounts.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- `QSO Management`: View, create, update, and delete QSOs with other operators.
+User Authentication: Register new users, login with existing credentials, and manage user accounts.
 
-### `npm test`
+- `Protected Routes`: Certain functionalities require authentication via JSON Web Tokens (JWT) for access.
+  
+- `Responsive Design`: Ensures compatibility and usability across various devices and screen sizes.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+### Dependencies and Technologies Used
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **react**: A JavaScript runtime environment that allows server-side execution of JavaScript code.
+- **react-router**: Provides routing capabilities for navigating between views.
+- **redux**: A predictable state container for managing application state.
+- **axios**: A promise-based HTTP client for making requests to the backend server.
+- **JWT Decode**: Utility library to decode JWTs on the client-side for handling authentication.
+- **semantic UI React**: A UI framework that provides pre-designed components for a consistent look and feel.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation Instructions
 
-### `npm run eject`
+1. Clone the repository to your local machine.
+2. Install dependencies using `npm install`.
+3. Create a `.env` file and add necessary environment variables if required (e.g., backend API URL).
+4. Start the development server with `npm start`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### How to Use
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+After starting the development server, open your web browser and navigate to `http://localhost:3000` (or another specified port) to access the application.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+### Key Components
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- `QSO Management`: Navigate to view, add, edit, or delete QSOs.
+- `User Authentication`: Register new users or login with existing credentials.
+- `Protected Routes`: Certain pages and actions require authentication. Unauthorized access will redirect users to the login page.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+### Example Screenshots
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Login Page - (will be added)
+Dashboard - (will be added)
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Notes
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Ensure the backend server (HamRadioLog Backend) is running and accessible to enable full functionality of the frontend application.
+  
+- For security reasons, handle JWTs securely and consider token expiration policies.
+  
+- The frontend application communicates with the backend server via RESTful API endpoints documented in the backend README file.
