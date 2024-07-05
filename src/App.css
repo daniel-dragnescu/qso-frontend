@@ -616,8 +616,7 @@ footer {
   max-width: 800px;
   background-color: #e0e0e0; 
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 .login-form {
@@ -672,9 +671,4 @@ footer {
 
 .login-buttons {
   margin-top: -20px;
-
-}
-
-.app-header-register {
-  margin-top: -10px;
 }
