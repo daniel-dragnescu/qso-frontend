@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
 
 const RegisterForm = () => {
   const [formData, setFormData] = React.useState({
@@ -50,9 +52,7 @@ const RegisterForm = () => {
 
   return (
     <div className="App">
-      <header className="App-header app-header-register">
-        <h1>Welcome to Ham Radio Log</h1>
-      </header>
+      <Header />
       <main className="register-main">
         <section className="register-section">
           <h2>Register</h2>
@@ -78,9 +78,7 @@ const RegisterForm = () => {
           </form>
         </section>
       </main>
-      <footer>
-        <p>&copy; {new Date().getFullYear()} Ham Radio Log. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };

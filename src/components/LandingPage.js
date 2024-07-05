@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Header from './Header';
+import Footer from './Footer';
 
 const LandingPage = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Welcome to Ham Radio Log</h1>
-      </header>
+      <Header />
       <main className="landing-main">
         <img className="radio-img" src={`${process.env.PUBLIC_URL}/radio-img.png`} alt="Radio Image"></img>
         <div className="landing-page">
@@ -22,9 +22,7 @@ const LandingPage = () => {
           </div>
         </div>
       </main>
-      <footer>
-        <p>&copy; {new Date().getFullYear()} Ham Radio Log. All rights reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
