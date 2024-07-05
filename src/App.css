@@ -164,18 +164,35 @@ footer {
   cursor: pointer;
 }
 
-.suggestion-item:hover {
-  background-color: #f0f0f0;
-}
-
 .suggestion-item.selected {
   background-color: #848587;
   color: white;
 }
 
-.suggestions-list:focus {
-  outline: none; 
+
+/* Ensure selected item remains in view */
+.suggestions-list {
+  scroll-behavior: smooth; /* Smooth scrolling */
 }
+
+/* Optional: Adjust styling when scrollbar is visible */
+.suggestions-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.suggestions-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.suggestions-list::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.suggestions-list::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
+
 
 
 @media (max-width: 768px) {

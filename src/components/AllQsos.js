@@ -120,34 +120,37 @@ const AllQsos = () => {
     return string.replace(/[.*+^${}()|[\]\\]/g, '\\$&');
   };
 
+  const suggestionsListRef = useRef(null);
+
   const handleSuggestionClick = (suggestion) => {
     setSearchTerm(suggestion.value.toString());
     setSuggestions([]);
-
+    setSelectedSuggestionIndex(-1); // Reset selected suggestion index
+  
     // Find the index of the selected QSO in qsoList
     const qsoIndex = qsoList.findIndex((qso) => qso.callsign === suggestion.qso.callsign);
-
+  
     if (qsoIndex !== -1) {
       // Update the qsoList with the incremented count for the selected QSO
       const updatedQsoList = [...qsoList];
       updatedQsoList[qsoIndex] = { ...updatedQsoList[qsoIndex], count: (updatedQsoList[qsoIndex].count || 0) + 1 };
       setQsoList(updatedQsoList);
-
+  
       // Update indicative count with the updated qsoList
       updateIndicativeCount();
-
+  
       // Determine the correct wording for the success message
       const count = updatedQsoList[qsoIndex].count;
       const timesText = count === 1 ? 'time' : 'times';
-
+  
       // Display success message
       setSuccessMessage(`You worked ${suggestion.qso.callsign} ${count} ${timesText}.`);
     }
-
+  
     // Set selected indicative for displaying count if in filtered view
     setSelectedIndicative(suggestion.qso.callsign);
   };
-
+  
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowUp') {
       e.preventDefault();
@@ -165,6 +168,19 @@ const AllQsos = () => {
       }
     }
   };
+  
+  const handleMouseEnter = (index) => {
+    setSelectedSuggestionIndex(index);
+  };
+  
+  useEffect(() => {
+    if (selectedSuggestionIndex !== -1 && suggestionsListRef.current) {
+      const selectedSuggestion = suggestionsListRef.current.children[selectedSuggestionIndex];
+      if (selectedSuggestion) {
+        selectedSuggestion.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+  }, [selectedSuggestionIndex]);
 
   const handleGoBack = () => {
     setSearchTerm('');
@@ -289,28 +305,28 @@ const AllQsos = () => {
                 ref={inputRef}
               />
               {suggestions.length > 0 && (
-                <ul className="suggestions-list">
-                  {suggestions.map((suggestion, index) => {
-                    return (
-                      <li
-                        key={index}
-                        className={`suggestion-item ${index === selectedSuggestionIndex ? 'selected' : ''}`}
-                        onClick={() => handleSuggestionClick(suggestion)}
-                      >
-                        {suggestion.field}: {suggestion.value}
-                      </li>
-                    );
-                  })}
+                <ul className="suggestions-list" ref={suggestionsListRef}>
+                  {suggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      className={`suggestion-item ${index === selectedSuggestionIndex ? 'selected' : ''}`}
+                      onClick={() => handleSuggestionClick(suggestion)}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={() => setSelectedSuggestionIndex(-1)} // Reset selection on mouse leave
+                    >
+                      {suggestion.field}: {suggestion.value}
+                    </li>
+                  ))}
                 </ul>
               )}
             </div>
           </div>
         )}
-
-        {successMessage && /* searchTerm &&  */!editingQso && (
+  
+        {successMessage && !editingQso && (
           <p className="success-message">{successMessage}</p>
         )}
-
+  
         {isFilteredView && selectedIndicative && indicativeCount[selectedIndicative] !== undefined && !editingQso && (
           <div className="indicative-count">
             {/* <p>
@@ -318,7 +334,7 @@ const AllQsos = () => {
             </p> */}
           </div>
         )}
-
+  
         {isConfirmModalVisible && (
           <ConfirmModal
             message="Are you sure you want to delete this QSO?"
@@ -326,7 +342,7 @@ const AllQsos = () => {
             onCancel={handleCancelDelete}
           />
         )}
-
+  
         {editingQso ? (
           <div className="edit-qso-form">
             <h3>Edit QSO</h3>
@@ -392,20 +408,19 @@ const AllQsos = () => {
         ) : (
           <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} onDelete={handleDeleteClick} />
         )}
-
+  
         {isFilteredView && !editingQso && (
           <button onClick={handleGoBack} className="go-back-button">
             Go back
           </button>
         )}
-
+  
         <div className="go-back">
           <p className="back-to-home">
-            <a href="/create-new-qso">Create a New QSO
-            </a>
+            <a href="/create-new-qso">Create a New QSO</a>
           </p>
         </div>
-
+  
         {/* Scroll to Top Button */}
         <button className="scroll-to-top" onClick={handleScrollToTop}>
           Back to Top
@@ -414,6 +429,7 @@ const AllQsos = () => {
       <Footer />
     </div>
   );
+  
 }
 
 export default AllQsos;
