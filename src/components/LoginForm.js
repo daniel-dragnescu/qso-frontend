@@ -5,7 +5,7 @@ import Footer from './Footer';
 
 const LoginForm = () => {
   const [formData, setFormData] = React.useState({
-    email: '',
+    callsign: '',
     password: ''
   });
 
@@ -56,8 +56,8 @@ const LoginForm = () => {
           <h2>Log in to your account</h2>
           <form onSubmit={handleSubmit} className="form-login">
             <div className="form-group-login">
-              <label htmlFor="email">Email:</label>
-              <input type="email" id="email" name="email" className="login-input" value={formData.email} onChange={handleChange} required />
+              <label htmlFor="callsign">Callsign:</label>
+              <input type="text" id="callsign" name="callsign" className="login-input" value={formData.callsign} onChange={handleChange} required />
             </div>
             
             <div className="form-group-login">
