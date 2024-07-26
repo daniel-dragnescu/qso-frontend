@@ -37,7 +37,13 @@ const LoginForm = () => {
       const data = await response.json();
       console.log('Login successful:', data);
 
-      // Optionally handle success (e.g., redirect, store token)
+      // Store user email in local storage
+      localStorage.setItem('jwtToken', data.accessToken);
+      localStorage.setItem('userEmail', data.user.email);
+      localStorage.setItem('userCallsign', data.user.callsign);
+
+      // Redirect to /create-new-qso
+      navigate('/create-new-qso');
     } catch (error) {
       console.error('Error logging in:', error.message);
       // Optionally handle error (e.g., display error message to user)
@@ -57,12 +63,26 @@ const LoginForm = () => {
           <form onSubmit={handleSubmit} className="form-login">
             <div className="form-group-login">
               <label htmlFor="callsign">Callsign:</label>
-              <input type="text" id="callsign" name="callsign" className="login-input" value={formData.callsign} onChange={handleChange} required />
+              <input 
+              type="text" 
+              id="callsign" 
+              name="callsign" 
+              className="login-input" 
+              value={formData.callsign} 
+              onChange={handleChange} 
+              required />
             </div>
             
             <div className="form-group-login">
               <label htmlFor="password">Password:</label>
-              <input type="password" id="password" name="password" className="login-input" value={formData.password} onChange={handleChange} required />
+              <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              className="login-input" 
+              value={formData.password} 
+              onChange={handleChange} 
+              required />
             </div>
             
             <div className="form-buttons login-buttons">
