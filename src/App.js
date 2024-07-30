@@ -11,10 +11,13 @@ function App() {
 
   const handleSubmit = async (formData) => {
     try {
+      const token = localStorage.getItem('jwtToken');
+
       const response = await fetch('http://localhost:3500/qso', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(formData),
       });

@@ -39,12 +39,22 @@ const AllQsos = () => {
   }, [qsoList, selectedIndicative]);
 
   const fetchQSOs = async () => {
+    const token = localStorage.getItem('jwtToken'); // Get JWT from localStorage
+
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3500/qso');
+      const response = await fetch('http://localhost:3500/qso', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Include JWT in headers
+        }
+      });
+
       if (!response.ok) {
         throw new Error('Failed to fetch QSOs');
       }
+
       const data = await response.json();
       setQsoList(data);
     } catch (error) {
@@ -212,12 +222,14 @@ const AllQsos = () => {
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('jwtToken');
 
     try {
       const response = await fetch(`http://localhost:3500/qso/${editingQso._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(editingQso),
       });
@@ -246,9 +258,13 @@ const AllQsos = () => {
   const handleConfirmDelete = async () => { 
     if (qsToDelete) {
       const { _id } = qsToDelete;
+      const token = localStorage.getItem('jwtToken');
       try {
         const response = await fetch(`http://localhost:3500/qso/${_id}`, {
           method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
         });
 
         if (!response.ok) {
