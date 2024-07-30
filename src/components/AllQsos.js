@@ -4,6 +4,7 @@ import QsoList from './QsoList';
 import Header from './Header';
 import Footer from './Footer';
 import ConfirmModal from './ConfirmModal';
+import { useNavigate } from 'react-router-dom';
 
 const AllQsos = () => {
   const [qsoList, setQsoList] = useState([]);
@@ -20,6 +21,8 @@ const AllQsos = () => {
   const [qsToDelete, setQsToDelete] = useState(null);
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
   const [userEmail, setUserEmail] = useState('');
+  const navigate = useNavigate();
+
 
     // Fetch user email from localStorage
     useEffect(() => {
@@ -30,8 +33,13 @@ const AllQsos = () => {
     // Function to handle log out
     const handleLogout = () => {
       localStorage.removeItem('userEmail');
+      localStorage.removeItem('userCallsign');
       localStorage.removeItem('jwtToken');
       window.location.href = '/login'; // Redirect to login page
+    };
+
+    const handleHomeClick = () => {
+      navigate('/');
     };
 
   // Function to disable scrolling
@@ -322,14 +330,21 @@ const AllQsos = () => {
       <Header />
       <main>
       <div className="user-info">
-        {userEmail && (
-          <div className="user-email-container">
+        <div className="user-email-container">
+          {userEmail && (
             <p className="user-email"><strong>Email:</strong> {userEmail}</p>
-            <div className="logout-icon" onClick={handleLogout} title="Log Out">
-              <i className="fas fa-sign-out-alt"></i>
-            </div>
+          )}
+        </div>
+        <div className="icon-container">
+          {/* Home icon */}
+          <div className="home-icon" onClick={handleHomeClick} title="Back to Home">
+            <i className="fas fa-home"></i>
           </div>
-        )}
+          {/* Log out icon */}
+          <div className="logout-icon" onClick={handleLogout} title="Log Out">
+            <i className="fas fa-sign-out-alt"></i>
+          </div>
+        </div>
       </div>
         {!editingQso && (
           <div className="logged-qso-header">

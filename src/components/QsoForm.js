@@ -53,18 +53,29 @@ const QsoForm = ({ onSubmit }) => {
     navigate('/login');
   };
 
+  const handleHomeClick = () => {
+    navigate('/');
+  };
+
   return (
     <section className="qso-form">
       {/* Display logged-in user's email and Log out icon */}
       <div className="user-info">
-        {userEmail && (
-          <div className="user-email-container">
+        <div className="user-email-container">
+          {userEmail && (
             <p className="user-email"><strong>Email:</strong> {userEmail}</p>
-            <div className="logout-icon" onClick={handleLogout} title="Log Out">
-              <i className="fas fa-sign-out-alt"></i>
-            </div>
+          )}
+        </div>
+        <div className="icon-container">
+          {/* Home icon */}
+          <div className="home-icon" onClick={handleHomeClick} title="Back to Home">
+            <i className="fas fa-home"></i>
           </div>
-        )}
+          {/* Log out icon */}
+          <div className="logout-icon" onClick={handleLogout} title="Log Out">
+            <i className="fas fa-sign-out-alt"></i>
+          </div>
+        </div>
       </div>
 
       <h2>Create a New QSO</h2>

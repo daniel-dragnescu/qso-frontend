@@ -366,11 +366,6 @@ footer {
   background-color: #4e4e4e;
 }
 
-.back-to-home {
-  margin-top: 20px;
-  margin-bottom: 0;
-}
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -668,30 +663,46 @@ footer {
 }
 
 .user-info {
-  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between; /* Space between email and icons */
+  align-items: center; /* Center items vertically */
+  padding: 0 20px; /* Optional: add padding as needed */
 }
 
+/* Container for email information */
 .user-email-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  align-items: center; /* Align email and icons vertically */
 }
 
-.user-email {
-  margin-right: 10px;
+/* Container for the icons */
+.icon-container {
+  display: flex;
+  align-items: center; /* Align icons vertically */
+  gap: 15px; /* Space between the icons */
 }
 
-.logout-icon {
+/* Style for the home icon */
+.home-icon {
+  font-size: 24px; /* Adjust size as needed */
+  color: #282c34; /* Adjust color as needed */
   cursor: pointer;
-  font-size: 1.5em;
-  transition: color 0.3s ease, transform 0.3s ease;
+  transition: color 0.3s ease;
+}
+
+.home-icon:hover {
+  color: #3b3f47; /* Adjust hover color as needed */
+}
+
+/* Style for the logout icon */
+.logout-icon {
+  font-size: 26px; /* Adjust size as needed */
+  color: #dc3545; /* Adjust color as needed */
+  cursor: pointer;
+  transition: color 0.3s ease;
+  line-height: 1;
 }
 
 .logout-icon:hover {
-  color: rgba(26, 26, 26, 0.637);
-  transform: scale(1.1);
-}
-
-.logout-icon i {
-  margin-left: 10px;
+  color: #c82333; /* Adjust hover color as needed */
 }
