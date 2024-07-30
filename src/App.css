@@ -687,11 +687,12 @@ footer {
   font-size: 24px; /* Adjust size as needed */
   color: #282c34; /* Adjust color as needed */
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .home-icon:hover {
   color: #3b3f47; /* Adjust hover color as needed */
+  transform: scale(1.1);
 }
 
 /* Style for the logout icon */
@@ -699,10 +700,12 @@ footer {
   font-size: 26px; /* Adjust size as needed */
   color: #dc3545; /* Adjust color as needed */
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.3s ease;
   line-height: 1;
 }
 
 .logout-icon:hover {
   color: #c82333; /* Adjust hover color as needed */
+  transform: scale(1.1);
+
 }
