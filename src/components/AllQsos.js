@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import QsoList from './QsoList';
 import Header from './Header';
 import Footer from './Footer';
@@ -18,6 +19,20 @@ const AllQsos = () => {
   const [editingQso, setEditingQso] = useState(null);
   const [qsToDelete, setQsToDelete] = useState(null);
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+
+    // Fetch user email from localStorage
+    useEffect(() => {
+      const email = localStorage.getItem('userEmail'); // Replace with actual email source
+      setUserEmail(email || 'Guest');
+    }, []);
+  
+    // Function to handle log out
+    const handleLogout = () => {
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('jwtToken');
+      window.location.href = '/login'; // Redirect to login page
+    };
 
   // Function to disable scrolling
   const disableScroll = () => {
@@ -306,6 +321,16 @@ const AllQsos = () => {
     <div className="App">
       <Header />
       <main>
+      <div className="user-info">
+        {userEmail && (
+          <div className="user-email-container">
+            <p className="user-email"><strong>Email:</strong> {userEmail}</p>
+            <div className="logout-icon" onClick={handleLogout} title="Log Out">
+              <i className="fas fa-sign-out-alt"></i>
+            </div>
+          </div>
+        )}
+      </div>
         {!editingQso && (
           <div className="logged-qso-header">
             <h2>Logged QSOs</h2>

@@ -666,3 +666,32 @@ footer {
 .login-buttons {
   margin-top: -20px;
 }
+
+.user-info {
+  margin-bottom: 20px;
+}
+
+.user-email-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-email {
+  margin-right: 10px;
+}
+
+.logout-icon {
+  cursor: pointer;
+  font-size: 1.5em;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.logout-icon:hover {
+  color: rgba(26, 26, 26, 0.637);
+  transform: scale(1.1);
+}
+
+.logout-icon i {
+  margin-left: 10px;
+}

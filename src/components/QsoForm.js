@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const QsoForm = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ const QsoForm = ({ onSubmit }) => {
   });
 
   const [userEmail, setUserEmail] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch the logged-in user's email from localStorage or a context
@@ -40,11 +43,28 @@ const QsoForm = ({ onSubmit }) => {
     });
   };
 
+  const handleLogout = () => {
+    // Clear the token and user info from localStorage
+    localStorage.removeItem('jwtToken');
+    localStorage.removeItem('userEmail');
+    localStorage.removeItem('userCallsign');
+
+    // Redirect to login page
+    navigate('/login');
+  };
+
   return (
     <section className="qso-form">
-      {/* Display logged-in user's email */}
+      {/* Display logged-in user's email and Log out icon */}
       <div className="user-info">
-        {userEmail && <p className="user-email">Logged in as: {userEmail}</p>}
+        {userEmail && (
+          <div className="user-email-container">
+            <p className="user-email"><strong>Email:</strong> {userEmail}</p>
+            <div className="logout-icon" onClick={handleLogout} title="Log Out">
+              <i className="fas fa-sign-out-alt"></i>
+            </div>
+          </div>
+        )}
       </div>
 
       <h2>Create a New QSO</h2>
