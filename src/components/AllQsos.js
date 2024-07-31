@@ -329,77 +329,97 @@ const AllQsos = () => {
     <div className="App">
       <Header />
       <main>
-      <div className="user-info">
-        <div className="user-email-container">
-          {userEmail && (
-            <p className="user-email"><strong>Email:</strong> {userEmail}</p>
-          )}
-        </div>
-        <div className="icon-container">
-          {/* Home icon */}
-          <div className="home-icon" onClick={handleHomeClick} title="Back to Home">
-            <i className="fas fa-home"></i>
+        <div className="user-info">
+          <div className="user-email-container">
+            {userEmail && (
+              <p className="user-email"><strong>Email:</strong> {userEmail}</p>
+            )}
           </div>
-          {/* Log out icon */}
-          <div className="logout-icon" onClick={handleLogout} title="Log Out">
-            <i className="fas fa-sign-out-alt"></i>
-          </div>
-        </div>
-      </div>
-        {!editingQso && (
-          <div className="logged-qso-header">
-            <h2>Logged QSOs</h2>
-            <div className="search-container">
-              <input
-                type="text"
-                placeholder="Search QSOs..."
-                value={searchTerm}
-                autoComplete="on"
-                onChange={handleSearchChange}
-                onKeyDown={handleKeyDown}
-                className="qso-search-bar"
-                ref={inputRef}
-              />
-              {suggestions.length > 0 && (
-                <ul className="suggestions-list" ref={suggestionsListRef}>
-                  {suggestions.map((suggestion, index) => (
-                    <li
-                      key={index}
-                      className={`suggestion-item ${index === selectedSuggestionIndex ? 'selected' : ''}`}
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      onMouseEnter={() => handleMouseEnter(index)}
-                      onMouseLeave={() => setSelectedSuggestionIndex(-1)} // Reset selection on mouse leave
-                    >
-                      {suggestion.field}: {suggestion.value}
-                    </li>
-                  ))}
-                </ul>
-              )}
+          <div className="icon-container">
+            {/* Home icon */}
+            <div className="home-icon" onClick={handleHomeClick} title="Back to Home">
+              <i className="fas fa-home"></i>
+            </div>
+            {/* Log out icon */}
+            <div className="logout-icon" onClick={handleLogout} title="Log Out">
+              <i className="fas fa-sign-out-alt"></i>
             </div>
           </div>
-        )}
+        </div>
   
-        {successMessage && !editingQso && (
-          <p className="success-message">{successMessage}</p>
-        )}
+        {!editingQso ? (
+          <>
+            <div className="logged-qso-header">
+              <h2>Logged QSOs</h2>
+              <div className="search-container">
+                <input
+                  type="text"
+                  placeholder="Search QSOs..."
+                  value={searchTerm}
+                  autoComplete="on"
+                  onChange={handleSearchChange}
+                  onKeyDown={handleKeyDown}
+                  className="qso-search-bar"
+                  ref={inputRef}
+                />
+                {suggestions.length > 0 && (
+                  <ul className="suggestions-list" ref={suggestionsListRef}>
+                    {suggestions.map((suggestion, index) => (
+                      <li
+                        key={index}
+                        className={`suggestion-item ${index === selectedSuggestionIndex ? 'selected' : ''}`}
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        onMouseEnter={() => handleMouseEnter(index)}
+                        onMouseLeave={() => setSelectedSuggestionIndex(-1)} // Reset selection on mouse leave
+                      >
+                        {suggestion.field}: {suggestion.value}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </div>
   
-        {isFilteredView && selectedIndicative && indicativeCount[selectedIndicative] !== undefined && !editingQso && (
-          <div className="indicative-count">
-            {/* <p>
+            {successMessage && (
+              <p className="success-message">{successMessage}</p>
+            )}
+  
+            {isFilteredView && selectedIndicative && indicativeCount[selectedIndicative] !== undefined && (
+              <div className="indicative-count">
+                {/* <p>
               You worked {selectedIndicative} {indicativeCount[selectedIndicative]} times.
             </p> */}
-          </div>
-        )}
+              </div>
+            )}
   
-        {isConfirmModalVisible && (
-          <ConfirmModal
-            message="Are you sure you want to delete this QSO?"
-            onConfirm={handleConfirmDelete}
-            onCancel={handleCancelDelete}
-          />
-        )}
+            {isConfirmModalVisible && (
+              <ConfirmModal
+                message="Are you sure you want to delete this QSO?"
+                onConfirm={handleConfirmDelete}
+                onCancel={handleCancelDelete}
+              />
+            )}
   
-        {editingQso ? (
+            <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} onDelete={handleDeleteClick} />
+  
+            {isFilteredView && (
+              <button onClick={handleGoBack} className="go-back-button">
+                Go back
+              </button>
+            )}
+  
+            <div className="create-qso-container">
+              <p className="create-qso">
+                <a href="/create-new-qso">Create a New QSO</a>
+              </p>
+            </div>
+  
+            {/* Scroll to Top Button */}
+            <div className="scroll-to-top" onClick={handleScrollToTop} title="Back to Top">
+              <i className="fas fa-angle-double-up"></i>
+            </div>
+          </>
+        ) : (
           <div className="edit-qso-form">
             <h3>Edit QSO</h3>
             <form onSubmit={handleEditSubmit}>
@@ -461,30 +481,13 @@ const AllQsos = () => {
               <button className="edit-cancel" onClick={() => setEditingQso(null)}>Cancel</button>
             </form>
           </div>
-        ) : (
-          <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} onDelete={handleDeleteClick} />
         )}
   
-        {isFilteredView && !editingQso && (
-          <button onClick={handleGoBack} className="go-back-button">
-            Go back
-          </button>
-        )}
-  
-        <div className="go-back">
-          <p className="back-to-home">
-            <a href="/create-new-qso">Create a New QSO</a>
-          </p>
-        </div>
-  
-        {/* Scroll to Top Button */}
-        <div className="scroll-to-top" onClick={handleScrollToTop} title="Back to Top">
-          <i className="fas fa-angle-double-up"></i>
-        </div>
       </main>
       <Footer />
     </div>
   );
+  
   
 }
 
