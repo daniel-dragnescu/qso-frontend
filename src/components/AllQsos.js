@@ -403,9 +403,9 @@ const AllQsos = () => {
             <QsoList qsoList={qsoList} searchTerm={searchTerm} loading={loading} onEdit={handleEdit} onDelete={handleDeleteClick} />
   
             {isFilteredView && (
-              <button onClick={handleGoBack} className="go-back-button">
-                Go back
-              </button>
+              <p onClick={handleGoBack} className="go-back-icon" title="Go back">
+                <i className="fas fa-long-arrow-alt-left"></i>
+              </p>
             )}
   
             <div className="create-qso-container">
