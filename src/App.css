@@ -621,7 +621,21 @@ footer {
 }
 
 .login-back-btn {
+  background-color: #000000;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1em;
+  margin: 20px 0;
   margin-right: 50px;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.login-back-btn:hover {
+  background-color: #2e2e2e;
 }
 
 .login-buttons {
