@@ -478,9 +478,9 @@ const AllQsos = () => {
         </div>
   
         {/* Scroll to Top Button */}
-        <button className="scroll-to-top" onClick={handleScrollToTop}>
-          Back to Top
-        </button>
+        <div className="scroll-to-top" onClick={handleScrollToTop} title="Back to Top">
+          <i className="fas fa-angle-double-up"></i>
+        </div>
       </main>
       <Footer />
     </div>

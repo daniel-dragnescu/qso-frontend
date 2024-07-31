@@ -347,25 +347,6 @@ footer {
   background-color: rgb(188, 9, 9);
 }
 
-.scroll-to-top {
-  position: absolute;
-  bottom: 12px;
-  right: 20px;
-  background-color: black;
-  color: rgb(255, 255, 255);
-  font-weight: bold;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: background-color 0.3s ease;
-}
-
-.scroll-to-top:hover {
-  background-color: #4e4e4e;
-}
-
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -707,5 +688,21 @@ footer {
 .logout-icon:hover {
   color: #c82333; /* Adjust hover color as needed */
   transform: scale(1.1);
+}
 
+.scroll-to-top {
+  font-size: 24px;
+  position: absolute;
+  bottom: 12px;
+  right: 20px;
+  font-weight: bold;
+  line-height: 1;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  color: #3b3f47;
+  transform: scale(1.1);
 }
