@@ -1,9 +1,20 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      navigate('/create-new-qso');
+    } else {
+      navigate('/login');
+    }
+  };
+
   return (
     <div className="App">
       <Header />
@@ -17,7 +28,7 @@ const LandingPage = () => {
               <button className="regist-btn">Register</button>
             </Link>
             <Link to="/login">
-              <button className="login-btn">Log In</button>
+              <button className="login-btn" onClick={handleLoginClick}>Log In</button>
             </Link>
           </div>
         </div>

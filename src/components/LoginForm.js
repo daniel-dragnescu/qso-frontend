@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
@@ -10,6 +10,13 @@ const LoginForm = () => {
   });
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+      navigate('/create-new-qso');
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     setFormData({
