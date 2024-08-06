@@ -4,7 +4,7 @@ import QsoList from './QsoList';
 import Header from './Header';
 import Footer from './Footer';
 import ConfirmModal from './ConfirmModal';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const AllQsos = () => {
   const [qsoList, setQsoList] = useState([]);
@@ -410,7 +410,7 @@ const AllQsos = () => {
   
             <div className="create-qso-container">
               <p className="create-qso">
-                <a href="/create-new-qso">Create a New QSO</a>
+                <Link to="/create-new-qso">Create a New QSO</Link>
               </p>
             </div>
   
