@@ -1,6 +1,20 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const QsoList = ({ qsoList, searchTerm, loading, onEdit, onDelete }) => {
+  const [dropdownOpen, setDropdownOpen] = useState(null);
+  const dropdownRef = useRef(null); // Ref for the dropdown menu
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(null);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -29,6 +43,10 @@ const QsoList = ({ qsoList, searchTerm, loading, onEdit, onDelete }) => {
   };
 
   const filteredQsoList = filterQsoList(qsoList, searchTerm);
+
+  const toggleDropdown = (index) => {
+    setDropdownOpen(dropdownOpen === index ? null : index);
+  };
 
   return (
     <section className="qso-list">
@@ -66,8 +84,29 @@ const QsoList = ({ qsoList, searchTerm, loading, onEdit, onDelete }) => {
                 <strong>Comments:&nbsp;</strong>
                 {qso.comments}
               </div>
-              <button className="edit-qso-button" onClick={() => onEdit(qso)}>Edit</button>
-              <button className="delete-qso-button" onClick={() => onDelete(qso)}>Delete</button>
+              <div className="actions" ref={dropdownRef}>
+                <i className="fas fa-ellipsis-h" onClick={() => toggleDropdown(index)}></i>
+                {dropdownOpen === index && (
+                  <div className="dropdown-menu" ref={dropdownRef}>
+                    <button 
+                      className="dropdown-item" 
+                      onClick={() => { 
+                        onEdit(qso);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      className="dropdown-item" 
+                      onClick={() => { 
+                        onDelete(qso); 
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                )}
+              </div>
             </li>
           ))}
         </ul>
