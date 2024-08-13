@@ -63,7 +63,7 @@ const QsoForm = ({ onSubmit }) => {
       <div className="user-info">
         <div className="user-email-container">
           {userEmail && (
-            <p className="user-email"><strong>Email:</strong> {userEmail}</p>
+            <p className="user-email"><strong>Account:</strong> {userEmail}</p>
           )}
         </div>
         <div className="icon-container">
