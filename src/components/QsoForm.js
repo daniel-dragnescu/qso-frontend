@@ -48,7 +48,7 @@ const QsoForm = ({ onSubmit }) => {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userCallsign');
-    localStorage.removeItem('userId') // Remove user ID
+    localStorage.removeItem('userId'); // Remove user ID
 
     // Redirect to login page
     navigate('/login');

@@ -36,6 +36,7 @@ const AllQsos = () => {
       localStorage.removeItem('userEmail');
       localStorage.removeItem('userCallsign');
       localStorage.removeItem('jwtToken');
+      localStorage.removeItem('userId');
       window.location.href = '/login'; // Redirect to login page
     };
 
