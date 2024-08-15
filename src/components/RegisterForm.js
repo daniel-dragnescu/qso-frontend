@@ -11,6 +11,7 @@ const RegisterForm = () => {
   });
 
   const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -54,6 +55,10 @@ const RegisterForm = () => {
 
     } catch (error) {
       console.error('Error registering:', error.message);
+      setErrorMessage('The email or callsign already exists!');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
       // Optionally handle error (e.g., display error message to user)
     }
   };
@@ -112,6 +117,7 @@ const RegisterForm = () => {
               <button type="button" className="go-back-btn" onClick={handleGoBack}>Go Back</button>
             </div>
             {successMessage && <p className="success-message">{successMessage}</p>}
+            {errorMessage && <p className="validation-message">{errorMessage}</p>}
           </form>
         </section>
       </main>
