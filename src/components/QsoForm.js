@@ -49,6 +49,7 @@ const QsoForm = ({ onSubmit }) => {
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userCallsign');
     localStorage.removeItem('userId'); // Remove user ID
+    localStorage.removeItem('qsoCounts');
 
     // Redirect to login page
     navigate('/login');

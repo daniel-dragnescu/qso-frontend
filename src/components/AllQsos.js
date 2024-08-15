@@ -37,6 +37,7 @@ const AllQsos = () => {
       localStorage.removeItem('userCallsign');
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('userId');
+      localStorage.removeItem('qsoCounts');
       window.location.href = '/login'; // Redirect to login page
     };
 
