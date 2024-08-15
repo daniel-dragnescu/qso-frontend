@@ -26,8 +26,9 @@ const AllQsos = () => {
 
     // Fetch user email from localStorage
     useEffect(() => {
-      const email = localStorage.getItem('userEmail'); // Replace with actual email source
-      setUserEmail(email || 'Guest');
+      // Fetch user email from local storage when the component mounts
+      const storedEmail = localStorage.getItem('userEmail');
+      setUserEmail(storedEmail);
     }, []);
   
     // Function to handle log out
@@ -41,6 +42,10 @@ const AllQsos = () => {
     const handleHomeClick = () => {
       navigate('/');
     };
+
+    const handleUserAccount = () => {
+      navigate('/update-user')
+    }
 
   // Function to disable scrolling
   const disableScroll = () => {
@@ -332,7 +337,10 @@ const AllQsos = () => {
         <div className="user-info">
           <div className="user-email-container">
             {userEmail && (
-              <p className="user-email"><strong>Account:</strong> {userEmail}</p>
+              <div className="user-email" onClick={handleUserAccount} title="Update Account">
+                <i className="fas fa-user-edit update-icon"></i>
+               {userEmail}
+            </div>
             )}
           </div>
           <div className="icon-container">
@@ -422,7 +430,7 @@ const AllQsos = () => {
         ) : (
           <div className="edit-qso-form">
             <h3>Edit QSO</h3>
-            <form onSubmit={handleEditSubmit}>
+            <form className="form-group" onSubmit={handleEditSubmit}>
               <div>
                 <label>Callsign:</label>
                 <input

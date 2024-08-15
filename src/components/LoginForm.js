@@ -48,6 +48,7 @@ const LoginForm = () => {
       localStorage.setItem('jwtToken', data.accessToken);
       localStorage.setItem('userEmail', data.user.email);
       localStorage.setItem('userCallsign', data.user.callsign);
+      localStorage.setItem('userId', data.user.id); // Store user ID
 
       // Redirect to /create-new-qso
       navigate('/create-new-qso');

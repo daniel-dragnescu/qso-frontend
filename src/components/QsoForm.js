@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const QsoForm = ({ onSubmit }) => {
@@ -48,6 +48,7 @@ const QsoForm = ({ onSubmit }) => {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userCallsign');
+    localStorage.removeItem('userId') // Remove user ID
 
     // Redirect to login page
     navigate('/login');
@@ -57,13 +58,20 @@ const QsoForm = ({ onSubmit }) => {
     navigate('/');
   };
 
+  const handleUserAccount = () => {
+    navigate('/update-user')
+  };
+
   return (
     <section className="qso-form">
       {/* Display logged-in user's email and Log out icon */}
       <div className="user-info">
         <div className="user-email-container">
           {userEmail && (
-            <p className="user-email"><strong>Account:</strong> {userEmail}</p>
+             <div className="user-email" onClick={handleUserAccount} title="Update Account">
+             <i className="fas fa-user-edit update-icon"></i>
+            {userEmail}
+         </div>
           )}
         </div>
         <div className="icon-container">
