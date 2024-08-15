@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
@@ -10,6 +10,7 @@ const LoginForm = () => {
   });
 
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const token = localStorage.getItem('jwtToken');
@@ -54,6 +55,10 @@ const LoginForm = () => {
       navigate('/create-new-qso');
     } catch (error) {
       console.error('Error logging in:', error.message);
+      setErrorMessage('Something went wrong. Please, try again!');
+      setTimeout(() => {
+        setErrorMessage('');
+      }, 3000);
       // Optionally handle error (e.g., display error message to user)
     }
   };
@@ -97,6 +102,7 @@ const LoginForm = () => {
               <button type="submit" className="login-submit-btn">Log In</button>
               <button type="button" className="go-back-button login-back-btn" onClick={handleGoBack}>Go Back</button>
             </div>
+            {errorMessage && <p className="validation-message">{errorMessage}</p>}
           </form>
         </section>
       </main>
